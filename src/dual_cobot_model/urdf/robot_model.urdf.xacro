@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="dual_arm_cobot">
+
+    <xacro:arg name="use_collision_meshes" default="true" />
+
+    <link name="world" />
+
+    <joint name="left_robot_in_world" type="fixed">
+        <origin xyz="-0.3 0.0 0.3" rpy="0.0 0.0 0.0" />
+        <parent link="world" />
+        <child link="left_base_link" />
+        <axis xyz="0 0 1" />
+    </joint>
+
+    <joint name="right_robot_in_world" type="fixed">
+        <origin xyz="+0.3 0.0 0.3" rpy="0.0 0.0 0.0" />
+        <parent link="world" />
+        <child link="right_base_link" />
+        <axis xyz="0 0 1" />
+    </joint>
+    
+    <xacro:include filename="robot_arm_macro.xacro" />
+
+     <!-- left cobot arm -->
+    <xacro:cobot_arm
+        name="left_cobot"
+        prefix="left_"
+        parent="left_base_link">
+    </xacro:cobot_arm>
+
+    <!-- right cobot arm -->
+    <xacro:cobot_arm
+        name="right_cobot"
+        prefix="right_"
+        parent="right_base_link">
+    </xacro:cobot_arm>
+
+</robot>
