@@ -1,0 +1,78 @@
+moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+
+moveit_simple_controller_manager:
+  controller_names:
+    - left_arm_group_controller
+    - left_gripper_group_controller
+    - left_vacuum_upper_joint_controller
+    - left_vacuum_lower_joint_controller
+    - right_arm_group_controller
+    - right_gripper_group_controller
+    - right_vacuum_upper_joint_controller
+    - right_vacuum_lower_joint_controller
+
+  left_arm_group_controller:
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - left_joint_1
+      - left_joint_2
+      - left_joint_3
+      - left_joint_4
+      - left_joint_5
+      - left_joint_6
+
+  left_gripper_group_controller:
+    action_ns: gripper_cmd
+    type: GripperCommand
+    default: true
+    joints:
+      - left_finger1_joint
+
+  left_vacuum_upper_joint_controller:
+    action_ns: gripper_cmd
+    type: GripperCommand
+    default: true
+    joints:
+      - left_vacuum_up_joint
+
+  left_vacuum_lower_joint_controller:
+      action_ns: gripper_cmd
+      type: GripperCommand
+      default: true
+      joints:
+        - left_vacuum_down_joint
+
+  right_arm_group_controller:
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - right_joint_1
+      - right_joint_2
+      - right_joint_3
+      - right_joint_4
+      - right_joint_5
+      - right_joint_6
+
+  right_gripper_group_controller:
+    action_ns: gripper_cmd
+    type: GripperCommand
+    default: true
+    joints:
+      - right_finger1_joint
+
+  right_vacuum_upper_joint_controller:
+    action_ns: gripper_cmd
+    type: GripperCommand
+    default: true
+    joints:
+      - right_vacuum_up_joint
+
+  right_vacuum_lower_joint_controller:
+      action_ns: gripper_cmd
+      type: GripperCommand
+      default: true
+      joints:
+        - right_vacuum_down_joint
