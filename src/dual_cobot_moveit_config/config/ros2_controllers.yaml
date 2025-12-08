@@ -1,0 +1,85 @@
+# This config file is used by ros2_control
+controller_manager:
+  ros__parameters:
+    update_rate: 100 # Hz
+
+    left_arm_group_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    left_gripper_group_controller:
+      type: position_controllers/GripperActionController
+
+    left_vacuum_upper_joint_controller:
+      type: position_controllers/GripperActionController
+
+    left_vacuum_lower_joint_controller:
+      type: position_controllers/GripperActionController
+    
+    right_arm_group_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    right_gripper_group_controller:
+      type: position_controllers/GripperActionController
+
+    right_vacuum_upper_joint_controller:
+      type: position_controllers/GripperActionController
+
+    right_vacuum_lower_joint_controller:
+      type: position_controllers/GripperActionController
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+left_arm_group_controller:
+  ros__parameters:
+    joints:
+      - left_joint_1
+      - left_joint_2
+      - left_joint_3
+      - left_joint_4
+      - left_joint_5
+      - left_joint_6
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+
+left_gripper_group_controller:
+  ros__parameters:
+    joint: left_finger1_joint
+
+left_vacuum_upper_joint_controller:
+   ros__parameters:
+    joint: left_vacuum_up_joint
+
+left_vacuum_lower_joint_controller:
+   ros__parameters:
+    joint: left_vacuum_down_joint
+
+right_arm_group_controller:
+  ros__parameters:
+    joints:
+      - right_joint_1
+      - right_joint_2
+      - right_joint_3
+      - right_joint_4
+      - right_joint_5
+      - right_joint_6
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+
+right_gripper_group_controller:
+  ros__parameters:
+    joint: right_finger1_joint
+
+right_vacuum_upper_joint_controller:
+   ros__parameters:
+    joint: right_vacuum_up_joint
+
+right_vacuum_lower_joint_controller:
+   ros__parameters:
+    joint: right_vacuum_down_joint
