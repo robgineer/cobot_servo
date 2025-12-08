@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="dual_arm_cobot">
+
+  <group name="left_arm_group">
+      <chain base_link="left_base_link" tip_link="left_gripper_tcp"/>
+  </group>
+  <group_state group="left_arm_group" name="home_pose">
+    <joint name="left_joint_1" value="-1.56"/>
+    <joint name="left_joint_2" value="0.76"/>
+    <joint name="left_joint_3" value="-0.76"/>
+    <joint name="left_joint_4" value="0.0"/>
+    <joint name="left_joint_5" value="-0.76"/>
+    <joint name="left_joint_6" value="0.0"/>
+  </group_state>
+
+  <group_state group="left_arm_group" name="init">
+    <joint name="left_joint_1" value="0.0"/>
+    <joint name="left_joint_2" value="0.0"/>
+    <joint name="left_joint_3" value="0.0"/>
+    <joint name="left_joint_4" value="0.0"/>
+    <joint name="left_joint_5" value="0.0"/>
+    <joint name="left_joint_6" value="0.0"/>
+  </group_state>
+
+  <virtual_joint name="virtual_joint" type="fixed" parent_frame="world" child_link="left_base_link"/>
+
+  <disable_collisions link1="left_segment1" link2="left_segment2" reason="Adjacent"/>
+  <disable_collisions link1="left_segment1" link2="left_segment3" reason="Never"/>
+
+  <disable_collisions link1="left_segment2" link2="left_segment3" reason="Adjacent"/>
+  <disable_collisions link1="left_segment2" link2="left_segment4" reason="Never"/>
+  <disable_collisions link1="left_segment2" link2="left_segment5" reason="Never"/>
+
+  <disable_collisions link1="left_segment3" link2="left_segment4" reason="Adjacent"/>
+  <disable_collisions link1="left_segment3" link2="left_segment5" reason="Never"/>
+  <disable_collisions link1="left_segment3" link2="left_segment6" reason="Never"/>
+  <disable_collisions link1="left_segment3" link2="left_segment7" reason="Never"/>
+
+  <disable_collisions link1="left_segment4" link2="left_segment5" reason="Adjacent"/>
+  <disable_collisions link1="left_segment4" link2="left_segment6" reason="Never"/>
+  <disable_collisions link1="left_segment4" link2="left_segment7" reason="Never"/>
+  
+  <disable_collisions link1="left_segment5" link2="left_segment6" reason="Adjacent"/>
+  <disable_collisions link1="left_segment5" link2="left_segment7" reason="Never"/>
+  <disable_collisions link1="left_segment6" link2="left_segment7" reason="Adjacent"/>
+
+
+  <group name="left_gripper_group">
+      <link name="left_finger1"/>
+      <link name="left_finger2"/>
+      <joint name="left_finger1_joint"/>
+      <passive_joint name="left_finger2_joint"/>
+  </group>
+  <group_state name="open" group="left_gripper_group">
+    <joint name="left_finger1_joint" value="0.0" />
+    <joint name="left_finger2_joint" value="0.0" />
+  </group_state>
+  <group_state name="close" group="left_gripper_group">
+    <joint name="left_finger1_joint" value="0.028" />
+    <joint name="left_finger2_joint" value="0.028" />
+  </group_state>
+  <end_effector name="left_end_effector_cobot" group="left_gripper_group" parent_group="left_arm_group" parent_link="left_gripper_tcp" />
+
+  <disable_collisions link1="left_finger1" link2="left_finger2" reason="Adjacent"/>
+  <disable_collisions link1="left_finger1" link2="left_segment7" reason="Adjacent"/>
+  <disable_collisions link1="left_finger1" link2="left_segment2" reason="Never"/>
+  <disable_collisions link1="left_finger1" link2="left_segment3" reason="Never"/>
+  <disable_collisions link1="left_finger1" link2="left_segment4" reason="Never"/>
+  <disable_collisions link1="left_finger1" link2="left_segment5" reason="Never"/>
+  <disable_collisions link1="left_finger1" link2="left_segment6" reason="Never"/>
+
+  <disable_collisions link1="left_finger2" link2="left_segment7" reason="Adjacent"/>
+  <disable_collisions link1="left_finger2" link2="left_segment2" reason="Never"/>
+  <disable_collisions link1="left_finger2" link2="left_segment3" reason="Never"/>
+  <disable_collisions link1="left_finger2" link2="left_segment4" reason="Never"/>
+  <disable_collisions link1="left_finger2" link2="left_segment5" reason="Never"/>
+  <disable_collisions link1="left_finger2" link2="left_segment6" reason="Never"/>
+
+
+  <group name="left_vacuum_gripper_group">
+      <link name="left_vacuum_gripper_up"/>
+      <link name="left_vacuum_gripper_down"/>
+      <joint name="left_vacuum_up_joint"/>
+      <joint name="left_vacuum_down_joint"/>
+  </group>
+  <group_state name="active" group="left_vacuum_gripper_group">
+    <joint name="left_vacuum_up_joint" value="0.055" />
+    <joint name="left_vacuum_down_joint" value="0.055" />
+  </group_state>
+  <group_state name="inactive" group="left_vacuum_gripper_group">
+    <joint name="left_vacuum_up_joint" value="0.0" />
+    <joint name="left_vacuum_down_joint" value="0.0" />
+  </group_state>
+
+  <disable_collisions link1="left_vacuum_gripper_up" link2="left_vacuum_gripper_down" reason="Adjacent"/>
+  <disable_collisions link1="left_vacuum_gripper_up" link2="left_finger2" reason="Adjacent"/>
+  <disable_collisions link1="left_vacuum_gripper_up" link2="left_segment7" reason="Adjacent"/>
+  <disable_collisions link1="left_vacuum_gripper_up" link2="left_finger1" reason="Adjacent"/>
+  <disable_collisions link1="left_vacuum_gripper_up" link2="left_finger2" reason="Adjacent"/>
+  <disable_collisions link1="left_vacuum_gripper_up" link2="left_segment2" reason="Never"/>
+  <disable_collisions link1="left_vacuum_gripper_up" link2="left_segment3" reason="Never"/>
+  <disable_collisions link1="left_vacuum_gripper_up" link2="left_segment4" reason="Never"/>
+  <disable_collisions link1="left_vacuum_gripper_up" link2="left_segment5" reason="Never"/>
+  <disable_collisions link1="left_vacuum_gripper_up" link2="left_segment6" reason="Never"/>
+
+  <disable_collisions link1="left_vacuum_gripper_down" link2="left_segment7" reason="Adjacent"/>
+  <disable_collisions link1="left_vacuum_gripper_down" link2="left_finger1" reason="Adjacent"/>
+  <disable_collisions link1="left_vacuum_gripper_down" link2="left_finger2" reason="Adjacent"/>
+  <disable_collisions link1="left_vacuum_gripper_down" link2="left_segment2" reason="Never"/>
+  <disable_collisions link1="left_vacuum_gripper_down" link2="left_segment3" reason="Never"/>
+  <disable_collisions link1="left_vacuum_gripper_down" link2="left_segment4" reason="Never"/>
+  <disable_collisions link1="left_vacuum_gripper_down" link2="left_segment5" reason="Never"/>
+  <disable_collisions link1="left_vacuum_gripper_down" link2="left_segment6" reason="Never"/>
+
+  <group name="left_cobot_full">
+    <group name="left_arm_group"/>
+    <group name="left_gripper_group"/>
+    <group name="left_vacuum_gripper_group"/>
+  </group>
+
+  <group name="right_arm_group">
+        <chain base_link="right_base_link" tip_link="right_gripper_tcp"/>
+    </group>
+    <group_state group="right_arm_group" name="home_pose">
+      <joint name="right_joint_1" value="-1.56"/>
+      <joint name="right_joint_2" value="0.76"/>
+      <joint name="right_joint_3" value="-0.76"/>
+      <joint name="right_joint_4" value="0.0"/>
+      <joint name="right_joint_5" value="-0.76"/>
+      <joint name="right_joint_6" value="0.0"/>
+    </group_state>
+
+    <group_state group="right_arm_group" name="init">
+      <joint name="right_joint_1" value="0.0"/>
+      <joint name="right_joint_2" value="0.0"/>
+      <joint name="right_joint_3" value="0.0"/>
+      <joint name="right_joint_4" value="0.0"/>
+      <joint name="right_joint_5" value="0.0"/>
+      <joint name="right_joint_6" value="0.0"/>
+    </group_state>
+
+  <virtual_joint name="virtual_joint" type="fixed" parent_frame="world" child_link="right_base_link"/>
+
+  <disable_collisions link1="right_segment1" link2="right_segment2" reason="Adjacent"/>
+  <disable_collisions link1="right_segment1" link2="right_segment3" reason="Never"/>
+
+  <disable_collisions link1="right_segment2" link2="right_segment3" reason="Adjacent"/>
+  <disable_collisions link1="right_segment2" link2="right_segment4" reason="Never"/>
+  <disable_collisions link1="right_segment2" link2="right_segment5" reason="Never"/>
+
+  <disable_collisions link1="right_segment3" link2="right_segment4" reason="Adjacent"/>
+  <disable_collisions link1="right_segment3" link2="right_segment5" reason="Never"/>
+  <disable_collisions link1="right_segment3" link2="right_segment6" reason="Never"/>
+  <disable_collisions link1="right_segment3" link2="right_segment7" reason="Never"/>
+
+  <disable_collisions link1="right_segment4" link2="right_segment5" reason="Adjacent"/>
+  <disable_collisions link1="right_segment4" link2="right_segment6" reason="Never"/>
+  <disable_collisions link1="right_segment4" link2="right_segment7" reason="Never"/>
+  
+  <disable_collisions link1="right_segment5" link2="right_segment6" reason="Adjacent"/>
+  <disable_collisions link1="right_segment5" link2="right_segment7" reason="Never"/>
+  <disable_collisions link1="right_segment6" link2="right_segment7" reason="Adjacent"/>
+
+
+  <group name="right_gripper_group">
+      <link name="right_finger1"/>
+      <link name="right_finger2"/>
+      <joint name="right_finger1_joint"/>
+      <passive_joint name="right_finger2_joint"/>
+  </group>
+  <group_state name="open" group="right_gripper_group">
+    <joint name="right_finger1_joint" value="0.0" />
+    <joint name="right_finger2_joint" value="0.0" />
+  </group_state>
+  <group_state name="close" group="right_gripper_group">
+    <joint name="right_finger1_joint" value="0.028" />
+    <joint name="right_finger2_joint" value="0.028" />
+  </group_state>
+
+  <end_effector name="right_end_effector_cobot" group="right_gripper_group" parent_group="right_arm_group" parent_link="right_gripper_tcp" />
+
+  <disable_collisions link1="right_finger1" link2="right_finger2" reason="Adjacent"/>
+  <disable_collisions link1="right_finger1" link2="right_segment7" reason="Adjacent"/>
+  <disable_collisions link1="right_finger1" link2="right_segment2" reason="Never"/>
+  <disable_collisions link1="right_finger1" link2="right_segment3" reason="Never"/>
+  <disable_collisions link1="right_finger1" link2="right_segment4" reason="Never"/>
+  <disable_collisions link1="right_finger1" link2="right_segment5" reason="Never"/>
+  <disable_collisions link1="right_finger1" link2="right_segment6" reason="Never"/>
+
+  <disable_collisions link1="right_finger2" link2="right_segment7" reason="Adjacent"/>
+  <disable_collisions link1="right_finger2" link2="right_segment2" reason="Never"/>
+  <disable_collisions link1="right_finger2" link2="right_segment3" reason="Never"/>
+  <disable_collisions link1="right_finger2" link2="right_segment4" reason="Never"/>
+  <disable_collisions link1="right_finger2" link2="right_segment5" reason="Never"/>
+  <disable_collisions link1="right_finger2" link2="right_segment6" reason="Never"/>
+
+
+  <group name="right_vacuum_gripper_group">
+      <link name="right_vacuum_gripper_up"/>
+      <link name="right_vacuum_gripper_down"/>
+      <joint name="right_vacuum_up_joint"/>
+      <joint name="right_vacuum_down_joint"/>
+  </group>
+  <group_state name="active" group="right_vacuum_gripper_group">
+    <joint name="right_vacuum_up_joint" value="0.055" />
+    <joint name="right_vacuum_down_joint" value="0.055" />
+  </group_state>
+  <group_state name="inactive" group="right_vacuum_gripper_group">
+    <joint name="right_vacuum_up_joint" value="0.0" />
+    <joint name="right_vacuum_down_joint" value="0.0" />
+  </group_state>
+
+  <disable_collisions link1="right_vacuum_gripper_up" link2="right_vacuum_gripper_down" reason="Adjacent"/>
+  <disable_collisions link1="right_vacuum_gripper_up" link2="right_finger2" reason="Adjacent"/>
+  <disable_collisions link1="right_vacuum_gripper_up" link2="right_segment7" reason="Adjacent"/>
+  <disable_collisions link1="right_vacuum_gripper_up" link2="right_finger1" reason="Adjacent"/>
+  <disable_collisions link1="right_vacuum_gripper_up" link2="right_finger2" reason="Adjacent"/>
+  <disable_collisions link1="right_vacuum_gripper_up" link2="right_segment2" reason="Never"/>
+  <disable_collisions link1="right_vacuum_gripper_up" link2="right_segment3" reason="Never"/>
+  <disable_collisions link1="right_vacuum_gripper_up" link2="right_segment4" reason="Never"/>
+  <disable_collisions link1="right_vacuum_gripper_up" link2="right_segment5" reason="Never"/>
+  <disable_collisions link1="right_vacuum_gripper_up" link2="right_segment6" reason="Never"/>
+
+  <disable_collisions link1="right_vacuum_gripper_down" link2="right_segment7" reason="Adjacent"/>
+  <disable_collisions link1="right_vacuum_gripper_down" link2="right_finger1" reason="Adjacent"/>
+  <disable_collisions link1="right_vacuum_gripper_down" link2="right_finger2" reason="Adjacent"/>
+  <disable_collisions link1="right_vacuum_gripper_down" link2="right_segment2" reason="Never"/>
+  <disable_collisions link1="right_vacuum_gripper_down" link2="right_segment3" reason="Never"/>
+  <disable_collisions link1="right_vacuum_gripper_down" link2="right_segment4" reason="Never"/>
+  <disable_collisions link1="right_vacuum_gripper_down" link2="right_segment5" reason="Never"/>
+  <disable_collisions link1="right_vacuum_gripper_down" link2="right_segment6" reason="Never"/>
+
+  <group name="right_cobot_full">
+    <group name="right_arm_group"/>
+    <group name="right_gripper_group"/>
+    <group name="right_vacuum_gripper_group"/>
+  </group>
+
+</robot>
