@@ -366,7 +366,7 @@ def _generate_declared_arguments() -> List[DeclareLaunchArgument]:
             default_value=path.join(
                 get_package_share_directory("teleoperation"),
                 "rviz",
-                "demo_rviz_config.rviz",
+                "teleop.rviz",
             ),
             description="Path to configuration for RViz2.",
         ),

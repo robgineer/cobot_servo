@@ -82,8 +82,6 @@ class ServoController(Node):
         )
         right_command_type_client.wait_for_service(timeout_sec=2.0)
 
-        self.right_live_plotter = LivePlotter()
-
         self.right_robot = Robot(
             right_twist_publisher,
             right_joint_publisher,
@@ -148,7 +146,7 @@ class ServoController(Node):
                 # there is nothing to track
                 # => reset filter
                 self.left_robot.initialize_kalman_filter()
-                self.left_robot.reset_servo_command(self.get_clock().now().to_msg())
+                #self.left_robot.reset_servo_command(self.get_clock().now().to_msg())
 
             if received_right_hand_tracker_data.has_values():
                 self.right_robot.update_kalman_filter(
@@ -158,7 +156,7 @@ class ServoController(Node):
                 )
             else:
                 self.right_robot.initialize_kalman_filter()
-                self.right_robot.reset_servo_command(self.get_clock().now().to_msg())
+                #self.right_robot.reset_servo_command(self.get_clock().now().to_msg())
         else:
             # we did not receive updated hand tracker data (the camera is slower than this thread)
             # run predict step to estimate (and smooth) new values
@@ -173,13 +171,6 @@ class ServoController(Node):
             received_left_hand_tracker_data.y,
             self.left_robot.kf.x[KalmanFilterState.VX],
             self.left_robot.kf.x[KalmanFilterState.VY],
-        )
-        self.right_live_plotter.update_plot(
-            current_time,
-            received_right_hand_tracker_data.x,
-            received_right_hand_tracker_data.y,
-            self.right_robot.kf.x[KalmanFilterState.VX],
-            self.right_robot.kf.x[KalmanFilterState.VY],
         )
 
         # send cobot controls

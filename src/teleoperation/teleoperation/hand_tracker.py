@@ -25,12 +25,7 @@ class HandTracker:
             min_tracking_confidence=0.5,
         )
         self.mp_draw = mp.solutions.drawing_utils
-        # self.cap = cv2.VideoCapture(0)
-        print("opening file")
-        self.cap = cv2.VideoCapture(
-            "/mnt/ssd/rharbach/cobot_servo_files/current_servo_impl/py_demo/py_demo/my_third.mov"
-        )
-        print("done")
+        self.cap = cv2.VideoCapture(0)
 
     def classify_hand_command(self, landmarks):
         """Identifies the hand gesture and returns a command."""
@@ -163,16 +158,16 @@ class HandTracker:
                     self.mp_draw.draw_landmarks(
                         img, hand, self.mp_hands.HAND_CONNECTIONS
                     )
-                    if label == "Left":
-                        draw_panel(
-                            img,
-                            [
-                                f"Label: {label}",
-                                f"Command: {control_command_info.control_type.name}",
-                            ],
-                            x=20,
-                            y=y,
-                        )
+
+                    draw_panel(
+                        img,
+                        [
+                            f"Label: {label}",
+                            f"Command: {control_command_info.control_type.name}",
+                        ],
+                        x=20,
+                        y=y,
+                    )
 
             # publish to queue (latest command overwrites older ones)
             if not self.command_queue.empty():

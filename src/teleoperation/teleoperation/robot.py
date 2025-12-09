@@ -90,7 +90,7 @@ class Robot(object):
         )
         # since the measurements are very noisy, we do not "trust" them
         # => higher values in measurement noise matrix
-        R = np.array([[20, 0], [0, 20]])
+        R = np.array([[10, 0], [0, 10]])
 
         H = np.array([[1, 0, 0, 0], [0, 0, 1, 0]])
 
@@ -161,12 +161,8 @@ class Robot(object):
             msg.header.stamp = timestamp
             msg.header.frame_id = self.frame_id
             velocity_scalar = 2.0
-            msg.twist.linear.x = max(
-                -1.0, min(1.0, self.kf.x[KalmanFilterState.VX] * velocity_scalar)
-            )
-            msg.twist.linear.z = max(
-                -1.0, min(1.0, self.kf.x[KalmanFilterState.VY] * -velocity_scalar)
-            )
+            msg.twist.linear.x = self.kf.x[KalmanFilterState.VX] * velocity_scalar
+            msg.twist.linear.z = self.kf.x[KalmanFilterState.VY] * -velocity_scalar
             self.twist_publisher.publish(msg)
 
         elif control_info.control_type == ControlType.JOINT_JOG:
@@ -184,10 +180,8 @@ class Robot(object):
             msg.header.stamp = timestamp
             msg.header.frame_id = self.frame_id
             msg.joint_names = [joint_for_jog]
-            velocity_scalar = 2.0
-            msg.velocities = [
-                max(-1.0, min(1.0, self.kf.x[KalmanFilterState.VY] * -velocity_scalar))
-            ]
+            velocity_scalar = -4.0
+            msg.velocities = [self.kf.x[KalmanFilterState.VY] * velocity_scalar]
             self.joint_publisher.publish(msg)
 
         elif control_info.control_type == ControlType.RESET:
