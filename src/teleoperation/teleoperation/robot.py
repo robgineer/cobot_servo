@@ -160,7 +160,7 @@ class Robot(object):
             msg = TwistStamped()
             msg.header.stamp = timestamp
             msg.header.frame_id = self.frame_id
-            velocity_scalar = 2.0
+            velocity_scalar = 3.0
             msg.twist.linear.x = self.kf.x[KalmanFilterState.VX] * velocity_scalar
             msg.twist.linear.z = self.kf.x[KalmanFilterState.VY] * -velocity_scalar
             self.twist_publisher.publish(msg)
@@ -180,7 +180,7 @@ class Robot(object):
             msg.header.stamp = timestamp
             msg.header.frame_id = self.frame_id
             msg.joint_names = [joint_for_jog]
-            velocity_scalar = -4.0
+            velocity_scalar = -7.0
             msg.velocities = [self.kf.x[KalmanFilterState.VY] * velocity_scalar]
             self.joint_publisher.publish(msg)
 
