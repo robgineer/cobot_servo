@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>teleoperation</name>
+  <version>1.0.0</version>
+  <description>Teleoperation using MoveIt2 Servo</description>
+  <maintainer email="robgineer@gmail.com">Robert Harbach</maintainer>
+  <maintainer email="Robert.Harbach@hs-esslingen.de">Robert Harbach</maintainer>
+
+  <license>BSD-3-Clause</license>
+
+  <depend>moveit_msgs</depend>
+  <depend>shape_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>mediapipe</depend>
+  <depend>math</depend>
+  <depend>time</depend>
+  <depend>rclpy</depend>
+  <depend>cv2</depend>
+
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

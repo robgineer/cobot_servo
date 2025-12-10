@@ -9,7 +9,7 @@
 publish_period: 0.03  # 1/Nominal publish rate [seconds]
 max_expected_latency: 0.1  # delay between sending a command and the robot executing it [seconds]
 
-command_in_type: "unitless"  # "unitless"> in the range [-1:1], as if from joystick. "speed_units"> cmds are in m/s and rad/s
+command_in_type: "speed_units"  # "unitless"> in the range [-1:1], as if from joystick. "speed_units"> cmds are in m/s and rad/s
 scale:
   # Scale parameters are only used if command_in_type=="unitless"
   linear:  0.8  # Max linear velocity. Unit is [m/s]. Only used for Cartesian commands.
@@ -34,7 +34,7 @@ smoothing_filter_plugin_name: "online_signal_smoothing::ButterworthFilterPlugin"
 # which other nodes can use as a source for information about the planning environment.
 # NOTE: If a different node in your system is responsible for the "primary" planning scene instance (e.g. the MoveGroup node),
 # then is_primary_planning_scene_monitor needs to be set to false.
-is_primary_planning_scene_monitor: false
+is_primary_planning_scene_monitor: true
 check_octomap_collisions: false  # Check collision against the octomap (if a 3D sensor plugin is available)
 
 ## MoveIt properties
@@ -49,7 +49,6 @@ leaving_singularity_threshold_multiplier: 2.0  # Multiply the hard stop limit by
 # If moving quickly, make these values larger.
 joint_limit_margins: [0.12]
 
-is_primary_planning_scene_monitor: false
 
 ## Topic names
 cartesian_command_in_topic: ~/delta_twist_cmds  # Topic for incoming Cartesian twist commands
