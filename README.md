@@ -4,6 +4,11 @@ Simultaneous control of two cobot arms via hand gestures.
 
 
 
+
+![demo](img/demo.gif)
+
+
+
 ## Getting Started
 
 We recommend using an Ubuntu workstation for the steps below (other operating systems are not supported). However, if you are feeling "hacky" then no one should stop you to run the implementation on any OS as long as you are able to download and build the following packages manually:
@@ -103,7 +108,7 @@ Asynchronous read of command from hand_tracker (servo_controller_node.py)
 
 ```
 
-The idea is quite simple: we track the hand movements, extract the velocities in (x-/y-direction) and forward these to MoveIt2 Servo. Due to (hardware) limitations, however, we had to implement a more complex solution. The application was running on a small (old) notebook with 4GB of RAM and no GPU support. This implies that the webcam was running with max. 10 frames / second. Furthermore, MediaPipe's inference was far from "perfomant" on the selected hardware. 
+The idea is quite simple: we track the hand movements, extract the velocities in (x-/y-direction) and forward these to MoveIt2 Servo. Due to (hardware) limitations, however, we had to implement a more complex solution. The application was running on a small (old) notebook with 8GB of RAM and no GPU support. This implies that the webcam was running with max. 10 frames / second. Furthermore, MediaPipe's inference was far from "perfomant" on the selected hardware.
 At the same time, MoveIt2 Servo expected continuous values; where 30ms has been defined as the preferred frequency for smooth arm movements. 
 
 <br/>
