@@ -3,15 +3,12 @@
 Simultaneous control of two cobot arms via hand gestures.
 
 
-
-
 ![demo](img/demo.gif)
-
 
 
 ## Getting Started
 
-We recommend using an Ubuntu workstation for the steps below (other operating systems are not supported). However, if you are feeling "hacky" then no one should stop you to run the implementation on any OS as long as you are able to download and build the following packages manually:
+We recommend using an Ubuntu workstation for the steps below (other operating systems are not supported). However, if you are feeling "hacky" then no one should stop you from running the implementation on any OS as long as you are able to download and build the following packages manually:
 
 ```text
 ROS2 Jazzy
@@ -36,7 +33,7 @@ cd scripts
 
 ```
 
-In most cases, this will be sufficient to build the docker container and execute it.
+In most cases this will be sufficient to build the docker container and execute it.
 
 If you are missing some dependencies as `docker.io` or if you are running into an error similar to `0.276 groupadd: GID '1000' already exists`, then its best to have a closer look at the [readme](scripts/README.md) within the scripts directory.
 
@@ -50,7 +47,7 @@ source install/setup.{sh/zsh}
 ```
 ### 3. Launch the required nodes
 
-On remote `host`:
+Within the docker container:
 ```bash
 export DISPLAY=:100
 xpra start =:100
@@ -61,14 +58,14 @@ source install/setup.{sh/zsh}
 ros2 launch teleoperation demo_ros_api.launch.py
 ```
 
-On client:
+On your local client:
 ```bash
 xpra attach ssh://<user>@<host>:22/100
 ```
 
 ### 4. Launch remote control node
 
-Open a new terminal on your remote host and execute
+Open a new terminal within the docker container and execute
 
 ```bash
 export DISPLAY=:200
@@ -76,6 +73,7 @@ xpra start =:200
 source /opt/ros_venv/bin/activate
 source /opt/ros/jazzy/setup.{sh/zsh}
 source install/setup.{sh/zsh}
+ros2 run teleoperation hand_control
 ```
 
 Open a new terminal on your client and execute
@@ -108,17 +106,17 @@ Asynchronous read of command from hand_tracker (servo_controller_node.py)
 
 ```
 
-The idea is quite simple: we track the hand movements, extract the velocities in (x-/y-direction) and forward these to MoveIt2 Servo. Due to (hardware) limitations, however, we had to implement a more complex solution. The application was running on a small (old) notebook with 8GB of RAM and no GPU support. This implies that the webcam was running with max. 10 frames / second. Furthermore, MediaPipe's inference was far from "perfomant" on the selected hardware.
+The idea is quite simple: we track the hand movements, extract the velocities in (x-/y-direction) and forward these to MoveIt2 Servo. Due to (hardware) limitations, however, we had to implement a more complex solution. The application was running on a small (and old) notebook with 8GB of RAM and no GPU support. This implies that the webcam was running with max. 10 frames / second. Furthermore, MediaPipe's inference was far from "perfomant" on the selected hardware.
 At the same time, MoveIt2 Servo expected continuous values; where 30ms has been defined as the preferred frequency for smooth arm movements. 
 
 <br/>
-In order to cope with these problems, we have used a Kalman Filter implementation that updated the velocity values only in case the hand tracker has detected a hand movement and predicted the velocity values otherwise. Refer `py_utils/filter_utils.py` for more details.
+In order to cope with these issues, we have used a Kalman Filter implementation that updated the velocity values only in case the hand tracker has updated hand movement values and predicted the velocity values otherwise. Refer `py_utils/filter_utils.py` for more details.
 
 ### Modules
 
 `hand_control.py` : main module executing a separate thread for the hand tracking, updating a queue with control commands and passing these to the `servo_controller_node.py`.
 
-`hand_tracker.py` : execution of MediaPipe's hand recognition, classification of hand commands and update of the queue for the  `servo_controller_node.py`
+`hand_tracker.py` : execution of MediaPipe's hand recognition, classification of hand commands and update of the queue for the  `servo_controller_node.py`. Runs as a separate thread out of `hand_control.py` (yes, it could be a ROS2 node but due to the hardware limitations, we tried to avoid any unnecessary ROS2 overhead).
 
 `servo_controller_node.py` :
 1. creates publishers for `twist` and `joint_jog` commands
@@ -163,9 +161,9 @@ py_utils/planner_utils.py: go_home
 
 ```
 
-Note: `go_home` is applied for both: the safety reset and the command reset (described above).
+Note: `go_home` is applied for both, the safety reset and the command reset (described above).
 
-Additionally, tele-operation is stopped in case more than two hands have been identified.
+Additionally, remote control is stopped in case more than two hands have been identified.
 
 ## The Robot Model Used
 

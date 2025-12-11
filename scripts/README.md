@@ -26,7 +26,7 @@ client -> SSH ->|  host    -----------  |
 
 Execute ```01_run_me_first``` to check if new user creation is required.<br/>
 If yes, execute ```a_setup_new_user.sh```. <br/>
-If not execute ```b_setup_packages.sh```. <br/>
+If not, execute ```b_setup_packages.sh```. <br/>
 
 Next, execute ```docker_configuration.sh```.
 
@@ -46,7 +46,7 @@ If your `host` is running on an operating system other than Ubuntu (Windows or M
 
 
 ### What's the deal with the user migration?
-In order to activate the graphical user interface (GUI) from the docker container to the ```host``` we use ```xpra```, a lightweight X11 forwarding application that works for various operating systems of `clients` (Linux, MacOs, etc.). In our setup, we will use xpra's SSH feature.
+In order to activate the graphical user interface (GUI) from the docker container to the ```client``` via the ```host``` we use ```xpra```, a lightweight X11 forwarding application that works for various operating systems of `clients` (Linux, MacOs, etc.). In our setup, we will use xpra's SSH feature.
 
 Now, xpra requires migrating your current ```host``` user to the docker container. Although it sounds rather special, its not a big deal. We simply create a new user in the docker container that has the same name and user id as the user on the ```host```. Using this setup, you will be able to authenticate in your xpra session with the same user and password as on your host.
 <br/>
